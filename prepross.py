@@ -22,7 +22,7 @@ def preprocess(df):
     return df 
 
 def getKmeansPoints(data,idx,n):
-    kmeans = KMeans(n_clusters=n,n_init=10,random_state=10)
+    kmeans = KMeans(n_clusters=n,n_init=10,random_state=5000)
     data['label'] = kmeans.fit_predict(data[[idx]])
 
     ord_idx=np.argsort(kmeans.cluster_centers_.flatten())
@@ -41,11 +41,11 @@ def kMeansSplit(df,index):
     target = ['roughness (μm)','tension_strength (MPa)','elongation (%)']
 
     CASE = folders[index]
-    testidc = getKmeansPoints(df,target[index],7)
+    testidc = getKmeansPoints(df,target[index],8)
     test = df.loc[testidc]
     df = df.drop(axis=1,index=testidc)
 
-    validc =  getKmeansPoints(df,target[index],7)
+    validc =  getKmeansPoints(df,target[index],6)
     validate = df.loc[validc]
     train = df.drop(axis=1,index=validc)
 
